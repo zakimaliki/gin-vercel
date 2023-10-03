@@ -49,14 +49,14 @@ func init() {
 	app = gin.New()
 	InitDB()
 	Migrate()
-	defer DB.Close()
 	res := SelectAll()
-	app.GET("/api", func(c *gin.Context) {
+	defer app.GET("/api", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"status": "Berhasil",
 			"data":   res,
 		})
 	})
+	defer DB.Close()
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
