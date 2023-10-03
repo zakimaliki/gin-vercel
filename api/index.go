@@ -50,7 +50,7 @@ func init() {
 	InitDB()
 	Migrate()
 	res := SelectAll()
-	defer app.GET("/api", func(c *gin.Context) {
+	app.GET("/api", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"status": "Berhasil",
 			"data":   res,
