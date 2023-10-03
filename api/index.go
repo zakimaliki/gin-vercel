@@ -48,7 +48,6 @@ func SelectAll() []Article {
 func init() {
 	app = gin.New()
 	InitDB()
-	Migrate()
 	res := SelectAll()
 	app.GET("/api", func(c *gin.Context) {
 		c.JSON(200, gin.H{
