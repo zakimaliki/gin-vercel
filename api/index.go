@@ -36,13 +36,13 @@ func Migrate() {
 	DB.AutoMigrate(&Article{})
 }
 
-func SelectAll() *gorm.DB {
-	// items := []Article{}
-	// config.DB.Raw("SELECT * FROM articles").Scan(&items)
-	// return items
-
+func SelectAll() []Article {
 	items := []Article{}
-	return DB.Find(&items)
+	DB.Raw("SELECT * FROM articles").Scan(&items)
+	return items
+
+	// items := []Article{}
+	// return DB.Find(&items)
 }
 
 func init() {
