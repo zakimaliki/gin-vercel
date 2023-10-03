@@ -14,7 +14,7 @@ var (
 
 func init() {
 	app = gin.New()
-	app.GET("/api/ping", func(c *gin.Context) {
+	app.GET("/api", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello from golang vercel")
 	})
 }
