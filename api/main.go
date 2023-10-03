@@ -1,3 +1,5 @@
+// package main
+
 package api
 
 import (
@@ -12,7 +14,7 @@ var (
 
 func init() {
 	app = gin.New()
-	app.GET("/api/admin", func(c *gin.Context) {
+	app.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello from golang vercel")
 	})
 }
