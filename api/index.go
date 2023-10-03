@@ -6,16 +6,56 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var (
 	app *gin.Engine
 )
 
+var DB *gorm.DB
+
+type Article struct {
+	gorm.Model
+	Title string
+	Slug  string `gorm:"unique_index"`
+	Desc  string `gorm:"type:text"`
+}
+
+func InitDB() {
+	// url := os.Getenv("URL")
+	var err error
+	DB, err = gorm.Open("postgres", "host=147.139.210.135 port=5432 user=zaki dbname=zaki03 password=zaki123")
+	if err != nil {
+		panic("failed to connect database")
+	}
+}
+
+func Migrate() {
+	DB.AutoMigrate(&Article{})
+}
+
+func SelectAll() *gorm.DB {
+	// items := []Article{}
+	// config.DB.Raw("SELECT * FROM articles").Scan(&items)
+	// return items
+
+	items := []Article{}
+	return DB.Find(&items)
+}
+
 func init() {
 	app = gin.New()
+	InitDB()
+	Migrate()
+	defer DB.Close()
+	res := SelectAll()
 	app.GET("/api", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello from golang vercel")
+		c.JSON(200, gin.H{
+			"status": "Berhasil",
+			"data":   res,
+		})
 	})
 }
 
